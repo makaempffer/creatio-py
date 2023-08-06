@@ -9,8 +9,11 @@ def run():
     print("This is comp2 data after pass ->", comp2.data)
     comp.update_linked_state()
 
-
-
+    component_tree = ComponentTree()
+    component_tree.add_component(comp)
+    component_tree.add_component(comp2)
+    component_tree.add_component_link(comp, comp2)
+ 
 
 class Component:
     def __init__(self):
@@ -47,6 +50,23 @@ class Component:
         self.linked_component.switch_state()
         print("[LINK] -> Linked state updated.")
 
+
+class ComponentTree:
+    def __init__(self):
+        self.components = []
+        # Dict should be self excluding
+        self.component_links = {Component: list[Component]}
+
+    def add_component_link(self, component_source: Component, component_target: Component):
+        self.component_links[component_source].append(component_target)
+        print(f'[TREE] -> Linked component. {component_source} --> component_target')
+
+
+    def add_component(self, component: Component):
+        self.components.append(component)
+        self.component_links[component] = [Component]
+        print("[TREE] -> Components:", self.components)
+        
+
 if __name__ == "__main__":
-    run()
-    
+    run() 
